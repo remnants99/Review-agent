@@ -5,7 +5,8 @@ runs/
 review_outputs/
 config.json
 
-待审稿/
+待审稿/*
+!待审稿/.gitkeep
 Paper/
 *.pdf
 *.zip
