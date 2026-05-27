@@ -105,6 +105,64 @@ python agent.py retry-failed
 python agent.py run --dry-run --limit 1
 ```
 
+## 常用命令示例
+
+### 使用默认审稿 prompt
+
+默认使用 `review.md`。审阅单篇论文：
+
+```bash
+python agent.py run --file "待审稿/thesis.pdf"
+```
+
+强制重新审阅单篇论文：
+
+```bash
+python agent.py run --file "待审稿/thesis.pdf" --force
+```
+
+审阅 `待审稿/` 中的全部论文：
+
+```bash
+python agent.py run
+```
+
+### 使用 proof checking prompt
+
+使用 `check_proof.md` 检查单篇论文中的 Theorem/Lemma 证明和依赖 DAG：
+
+```bash
+python agent.py run --prompt check_proof.md --file "待审稿/thesis.pdf" --force
+```
+
+如果 proof checking 任务较重，可以加长单次运行超时：
+
+```bash
+python agent.py run --prompt check_proof.md --file "待审稿/thesis.pdf" --force --timeout-minutes 180
+```
+
+批量检查 `待审稿/` 中全部论文的证明：
+
+```bash
+python agent.py run --prompt check_proof.md --force --timeout-minutes 180
+```
+
+先查看 `check_proof.md` 会被渲染成什么实际 prompt，不调用 Codex：
+
+```bash
+python agent.py run --prompt check_proof.md --file "待审稿/thesis.pdf" --dry-run --force
+```
+
+### 使用自定义 prompt
+
+你也可以新建自己的 prompt 文件，例如 `my_review.md`，然后运行：
+
+```bash
+python agent.py run --prompt my_review.md --file "待审稿/paper.pdf"
+```
+
+不同 prompt 会生成不同文件名，因此同一篇论文用 `review.md` 和 `check_proof.md` 处理时不会互相覆盖。
+
 ## 输出位置
 
 最终审稿 Markdown 会复制到：
