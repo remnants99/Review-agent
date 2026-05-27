@@ -113,10 +113,24 @@ python agent.py run --dry-run --limit 1
 review_outputs/
 ```
 
+输出文件名会同时包含论文 ID 和 prompt 文件名，避免不同 prompt 处理同一篇论文时互相覆盖。例如：
+
+```text
+review_outputs/1533-903a30c7__review.md
+review_outputs/1533-903a30c7__check_proof.md
+```
+
 每篇论文的完整运行记录会保存在：
 
 ```text
 runs/<paper-id>/
+```
+
+实际运行目录同样会包含 prompt 文件名，例如：
+
+```text
+runs/1533-903a30c7__review/
+runs/1533-903a30c7__check_proof/
 ```
 
 其中常见文件包括：

@@ -65,6 +65,10 @@ def paper_id(path: Path) -> str:
     return f"{safe_name(path.stem)}-{digest}"
 
 
+def prompt_id(path: Path) -> str:
+    return safe_name(path.stem)
+
+
 def load_config(config_path: str | None) -> dict[str, Any]:
     candidates: list[Path] = []
     if config_path:
@@ -302,7 +306,9 @@ def run_one(
     force: bool,
     dry_run: bool,
 ) -> dict[str, Any]:
-    run_id = paper_id(paper)
+    base_paper_id = paper_id(paper)
+    base_prompt_id = prompt_id(prompt_path)
+    run_id = f"{base_paper_id}__{base_prompt_id}"
     run_dir = runs_dir / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -333,6 +339,8 @@ def run_one(
     status: dict[str, Any] = {
         "paper": paper.name,
         "paper_path": str(paper.resolve()),
+        "paper_id": base_paper_id,
+        "prompt_id": base_prompt_id,
         "run_id": run_id,
         "run_dir": str(run_dir.resolve()),
         "prompt": str(prompt_path.resolve()),
